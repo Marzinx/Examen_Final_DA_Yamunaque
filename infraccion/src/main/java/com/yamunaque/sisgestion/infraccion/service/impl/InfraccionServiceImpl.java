@@ -57,6 +57,11 @@ public class InfraccionServiceImpl implements InfraccionService {
 		try {
 			Infraccion infraccionDb=findById(obj.getId());
 			infraccionDb.setNombre(obj.getNombre());
+			infraccionDb.setDni(obj.getDni());
+			infraccionDb.setPlaca(obj.getPlaca());
+			infraccionDb.setInfraccion(obj.getInfraccion());
+			infraccionDb.setDescripcion(obj.getDescripcion());
+			infraccionDb.setFecha(obj.getFecha());
 			return repository.save(infraccionDb);
 		} catch (Exception e) {
 			log.error(e.getMessage());

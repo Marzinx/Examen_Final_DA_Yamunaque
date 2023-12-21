@@ -1,4 +1,4 @@
-const url = "/infraccion/api/infracciones";
+const url = "/infracciones/api/infracciones";
 
 function save(bandera) {
     $("#modal-update").modal("hide")
@@ -8,7 +8,9 @@ function save(bandera) {
         nombre : $("#nombre").val(),
         dni : $("#dni").val(),
         placa : $("#placa").val(),
-        fecha : $("#fechaRegistro").val()
+        infraccion : $("#infraccion").val(),
+        descripcion : $("#descripcion").val(),
+        fecha : $("#fecha").val()
     }
     let metodo = bandera == 1 ? "POST" : "PUT";
     $.ajax({
@@ -22,7 +24,7 @@ function save(bandera) {
 			if(data==0){
 				Swal.fire({
 	                icon: 'error',
-	                title: 'La categoría ya esta registrada',
+	                title: 'La infraccion ya esta registrada',
 	                showConfirmButton: false,
 	                timer: 1500
 	            })				
@@ -31,7 +33,7 @@ function save(bandera) {
 	            getTabla();
 	            Swal.fire({
 	                icon: 'success',
-	                title: 'Se ha '+texto+' la categoria',
+	                title: 'Se ha '+texto+' la infraccion',
 	                showConfirmButton: false,
 	                timer: 1500
 	            })
@@ -55,7 +57,7 @@ function deleteFila(id) {
         success: function (data) {
             Swal.fire({
                 icon: 'success',
-                title: 'Se ha eliminado la categoria',
+                title: 'Se ha eliminado la infraccion',
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -97,7 +99,7 @@ function getTabla() {
             let js = JSON.parse(data);
 
             $.each(js, function (a, b) {
-                t.row.add([b.id, b.nombre, botonera]);
+                t.row.add([b.id, b.nombre, b.dni, b.placa, b.infraccion, b.descripcion, b.fecha ,botonera]);
 
             });
 
@@ -121,7 +123,9 @@ function getFila(id) {
             $("#nombre").val(data.nombre);
             $("#dni").val(data.dni);
             $("#placa").val(data.placa);
-            $("#fecha").val(data.fechaRegistro);
+            $("#infraccion").val(data.infraccion);
+            $("#descripcion").val(data.descripcion);
+            $("#fecha").val(data.fecha);
             $("#guardar").data("id", data.id);
             $("#guardar").data("bandera", 0);
             $("#modal-update").modal("show");
@@ -135,6 +139,11 @@ function getFila(id) {
 function clear() {
     $("#modal-title").text("Nueva Infraccion");
     $("#nombre").val("");
+    $("#dni").val("");
+    $("#placa").val("");
+    $("#infraccion").val("");
+    $("#descripcion").val("");
+    $("#fecha").val("");
     $("#guardar").data("id", 0);
     $("#guardar").data("bandera", 1);
 }
@@ -156,9 +165,11 @@ $(document).ready(function () {
             },
         },
         columnDefs: [
-            { targets: 0, width: "10%" },
-            { targets: 1, width: "80%" },
-            { targets: 2, orderable: false, width: "10%" }
+            { targets: 0, width: "5%" },
+            { targets: 1, width: "40%" },
+            { targets: 2, width: "15%" },
+            { targets: 3, width: "15%" },
+            { targets: 7, orderable: false, width: "10%" }
         ],
     });
 
@@ -176,8 +187,8 @@ $(document).ready(function () {
 
     $(document).on('click', '.eliminar', function () {
         Swal.fire({
-            title: 'Eliminar Categoria',
-            text: "¿Esta seguro de querer eliminar esta categoria?",
+            title: 'Eliminar Infraccion',
+            text: "¿Esta seguro de querer eliminar esta infraccion?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
